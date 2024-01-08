@@ -4,13 +4,14 @@ import {Link} from 'react-router-dom';
 export default function Header() {
   return (
     <header className='bg-orange-400 shadow-md'>
-      <div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
+      <div className='flex justify-between items-center max-w-6xl mx-auto py-3 px-3'>
         <h1 className='font-bold text-sm sm:text-xl flex flex-wrap'>
         <span className='text-slate-500'>JUST</span>
-        <span className='text-cyan-500'>find</span>
+        <span className='text-cyan-500'>Find</span>
+        <span className='text-cyan-500 '>.in</span>
       </h1>
       <form className='bg-slate-200 p-2 rounded-md flex items-center'>
-        <input type="text" placeholder='Search...' className='bg-transparent focus:outline-none w-24 sm:w-64'/>
+        <input type="text" placeholder='Search...' className=' bg-transparent focus:outline-none w-24 sm:w-64 '/>
         <FaSearch className='text-slate-500'/>
       </form>
       <ul className='flex gap-4'>
