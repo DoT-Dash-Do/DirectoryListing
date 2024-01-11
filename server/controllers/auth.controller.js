@@ -29,11 +29,40 @@ export const signin = async(req,res,next) => {
         
         const token = jwt.sign({id:validU._id},process.env.JWT_SECRET);
         const{password:pass,...rest} = validU._doc;
-        res.cookie('access_granted',token,{httpOnly:true,expiresIn:30*60*1000})
+        res.cookie('access_granted',token,{httpOnly:true,SameSite:'None',expiresIn:30*60*1000})
         .status(200)
         .json(rest);
     }
     catch(error){
+        next(error);
+    }
+}
+
+export const googlesign = async(req,res,next) =>{
+    try {
+        const user = await User.findOne({email:req.body.email})
+        if(user){
+            const token = jwt.sign({id:user._id},process.env.JWT_SECRET);
+            const {password:pass,...rest} = user._doc;
+            res
+            .cookie('access_token',token,{httpOnly:true,SameSite:'None',expiresIn:30*60*1000})
+            .status(200)
+            .json(rest);
+        }
+        else
+        {
+            const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+            const hasshedPassword = bcrypt.hashSync(generatedPassword,10);
+            const userN = req.body.name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-4);
+            const newUser = new User({username:userN,email:req.body.email,password:hasshedPassword,avatar:req.body.photo});
+            await newUser.save();
+            const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET);
+            const {password:pass,...rest} = newUser._doc;
+            res.cookie('access_granted',token,{httpOnly:true,SameSite:'None',expiresIn:30*60*1000})
+            .status(200)
+            .json(rest);
+        }
+    } catch (error) {
         next(error);
     }
 }

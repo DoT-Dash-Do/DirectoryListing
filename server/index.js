@@ -8,7 +8,7 @@ dotenv.config();
 
 
 mongoose.connect(process.env.MONGO_URI,{
-    dbName:'lmaobmao'
+    dbName:'ListingProj'
 }).then(()=>{
     console.log('connected to mongo');
 })

@@ -1,11 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import { signInStart,signInSuccess,signInFailure } from '../redux/user/userSlice';
+import OAuth from '../Components/OAuth';
 export default function SignIn() {
-  const [error,setError] = useState(null);
+  const navig = useNavigate();
+  const Dispatch = useDispatch();
+  const{load,error} = useSelector((state)=>state.user);
   const [formData,setFormData] = useState({});
-  const [load,setLoad] = useState(false);
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -15,7 +18,7 @@ export default function SignIn() {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try {
-      setLoad(true);
+      Dispatch(signInStart());
       const res = await fetch('/api/auth/signin',
       {
         method:"POST",
@@ -27,15 +30,13 @@ export default function SignIn() {
       const data = await res.json();
       if(data.success === false)
       {
-        setError(data.message);
-        setLoad(false);
+        Dispatch(signInFailure(data.message));
         return;
       }
-      setLoad(false)
-      setError(null);
+      Dispatch(signInSuccess(data));
+      navig('/');
     } catch (error) {
-      setLoad(false);
-      setError(data.message);
+      Dispatch(signInFailure(error.message));
     }
       
      
@@ -48,7 +49,9 @@ export default function SignIn() {
         <input type="email" placeholder='email' className='border p-3 rounded-lg' id='email' onChange={handleChange}/>
         <input type="password" placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange}/>
         <button disabled={load} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{load?'Signing IN':'Sign in'}</button>
+        <OAuth/>
       </form>
+        
       <div className='flex gap-2 mt-5'>
         <p>New User?</p>
         <Link to='/sign-up'>
