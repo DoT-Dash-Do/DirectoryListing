@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { signInStart,signInSuccess,signInFailure } from '../redux/user/userSlice';
 import OAuth from '../Components/OAuth';
 export default function SignIn() {
+  console.log('navigated');
   const navig = useNavigate();
   const Dispatch = useDispatch();
   const{load,error} = useSelector((state)=>state.user);

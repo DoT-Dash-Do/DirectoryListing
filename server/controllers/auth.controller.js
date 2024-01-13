@@ -29,7 +29,7 @@ export const signin = async(req,res,next) => {
         
         const token = jwt.sign({id:validU._id},process.env.JWT_SECRET);
         const{password:pass,...rest} = validU._doc;
-        res.cookie('access_granted',token,{httpOnly:true,SameSite:'None',expiresIn:30*60*1000})
+        res.cookie('access_granted',token,{httpOnly:true,SameSite:'None'})
         .status(200)
         .json(rest);
     }
@@ -45,7 +45,7 @@ export const googlesign = async(req,res,next) =>{
             const token = jwt.sign({id:user._id},process.env.JWT_SECRET);
             const {password:pass,...rest} = user._doc;
             res
-            .cookie('access_token',token,{httpOnly:true,SameSite:'None',expiresIn:30*60*1000})
+            .cookie('access_granted',token,{httpOnly:true,SameSite:'None'})
             .status(200)
             .json(rest);
         }
@@ -58,7 +58,7 @@ export const googlesign = async(req,res,next) =>{
             await newUser.save();
             const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET);
             const {password:pass,...rest} = newUser._doc;
-            res.cookie('access_granted',token,{httpOnly:true,SameSite:'None',expiresIn:30*60*1000})
+            res.cookie('access_granted',token,{httpOnly:true,SameSite:'None'})
             .status(200)
             .json(rest);
         }
