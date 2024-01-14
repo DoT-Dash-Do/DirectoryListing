@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useRef,useState,useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {app} from '../firebase.js'
 import { useDispatch } from 'react-redux';
 import {getDownloadURL, getStorage,ref, uploadBytesResumable} from 'firebase/storage';
@@ -116,7 +117,8 @@ export default function Profile() {
         <p className='self-center'>{fileUploadError?(<span className='text-red-700'>Error</span>) : filePr>0 && filePr <100?(<span className='text-green-400'>uploading {filePr}%</span>):filePr===100?(<span className='text-green-400'>uploaded {filePr}%</span>):(<span></span>)}</p>
         <input type="text" placeholder='Username' className='border p-3 rounded-lg' id='username' defaultValue={currentUser.username} onChange={handleChange}/>
         <input type="password" placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange}/>
-        <button className='bg-green-500 hover:opacity-95 rounded-lg p-3 disabled:opacity-80 cursor-pointer'>{load?("updating"):("update")}</button>
+        <button className='bg-red-500 hover:opacity-95 rounded-lg p-3 disabled:opacity-80 cursor-pointer'>{load?("updating"):("update")}</button>
+        <Link className='bg-green-300 p-3 rounded-lg text-center hover:opacity-80' to={"/create-listing"}>Create Lising</Link>
       </form >
       <div className='flex justify-between mt-2'>
         <span onClick={handleDelete}className='text-red-700 cursor-pointer'>Delete account</span>
