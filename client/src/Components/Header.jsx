@@ -8,7 +8,7 @@ export default function Header() {
     <header className='bg-orange-400 shadow-md'>
       <div className='flex justify-between items-center max-w-6xl mx-auto py-3 px-3'>
         <h1 className='font-bold text-sm sm:text-xl flex flex-wrap'>
-        <span className='text-slate-500'>JUST</span>
+        <span className='text-slate-500'>QckJUST</span>
         <span className='text-cyan-500'>Find</span>
         <span className='text-cyan-500 '>.in</span>
       </h1>
