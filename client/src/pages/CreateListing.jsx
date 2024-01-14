@@ -72,9 +72,14 @@ export default function CreateListing() {
             });
             const data = await res.json();
             setLoad(false);
+            if(data.success === false)
+            {
+                setError(true);
+                return;
+            }
             navig(`/listing/${data._id}`);
         } catch (err) {
-            setError(err.message);
+            setError(false);
             setLoad(false)    
         }
     }

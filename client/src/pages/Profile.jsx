@@ -16,6 +16,8 @@ export default function Profile() {
   const [filePr,setFilepr] = useState(0);
   const [fileUploadError,setFileUploaderror] = useState(false);
   const [formData,setFormData] = useState({});
+  const [shLiserr,setShLiserr] = useState(false);
+  const [userListings,setUserListings]=useState([]);
   useEffect(()=>{
     if(file)
       {
@@ -87,6 +89,16 @@ export default function Profile() {
       dispatch(signOutFailure(error.message));
     }
   }
+  const handleShowLs = async() => {
+  setShLiserr(false);
+    try {
+      const res = await fetch(`/api/users/shlistings/${currentUser._id}`)
+      const data = await res.json();
+      setUserListings(data);
+    } catch (err) {
+      setShLiserr(true);
+    }
+  }
   const handleFileUpload = (file) => {
       const storage = getStorage(app);
       const fileName = new Date().getTime() + file.name;
@@ -105,7 +117,25 @@ export default function Profile() {
       }
       );
   };
- 
+  const hndlDelList=async(e)=>{
+      try {
+        const res = await fetch(`/api/listing/deleteListing/${e}`,{
+          method:"DELETE",      
+        })
+        const data = await res.json();
+        if(data.success === false)
+        {
+          console.log(data.message);
+          return;
+        }
+        setUserListings((prev)=>prev.filter((lst)=>lst._id!==e));
+      } catch (error) {
+        console.log(error.message);
+      }
+  }
+  const hndlEditList=(e)=>{
+
+  }
   return (
     <div className='max-w-lg mx-auto'>
       
@@ -118,12 +148,32 @@ export default function Profile() {
         <input type="text" placeholder='Username' className='border p-3 rounded-lg' id='username' defaultValue={currentUser.username} onChange={handleChange}/>
         <input type="password" placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange}/>
         <button className='bg-red-500 hover:opacity-95 rounded-lg p-3 disabled:opacity-80 cursor-pointer'>{load?("updating"):("update")}</button>
-        <Link className='bg-green-300 p-3 rounded-lg text-center hover:opacity-80' to={"/create-listing"}>Create Lising</Link>
+        <Link className='bg-green-300 p-3 rounded-lg text-center hover:opacity-80' to={"/create-listing"}>Create Listing</Link>
       </form >
       <div className='flex justify-between mt-2'>
         <span onClick={handleDelete}className='text-red-700 cursor-pointer'>Delete account</span>
         <span onClick={signOut} className='text-red-700 cursor-pointer'>Sign out</span></div>
       <div className='text-red-500 self-center'>{error?error:''}</div>
+      <button className='self-center bg-orange-300 p-3 rounded-lg text-center hover:opacity-80' onClick={handleShowLs}>show listings</button>
+      <p className='text-red-500 self-center'>{shLiserr?shLiserr:''}</p>
+      <div className='mt-4 flex flex-col gap-4'>{
+      userListings && userListings.length>0 && 
+      userListings.map((lst)=>{
+          return (<div  className='border-red-400 text-center p-3 flex flex-wrap items-center border rounded-lg gap-4 justify-between'
+            key={lst._id}><Link to={`listing/${lst._id}`}>
+            <img className=' h-16 w-18 object-contain' 
+            src={lst.imageUrls[0]} 
+            alt="listing cover" />
+            </Link>
+            <Link className='text-blue-400 font-bold truncate' to={`listing/${lst._id}`}>{lst.name}</Link>
+            <div>
+              <p onClick ={()=>hndlDelList(lst._id)} className='text-red-700 cursor-pointer'>Delete</p>
+              <p onClick={()=>hndlEditList(lst._id)} className='text-green-700 cursor-pointer'>Edit</p>
+              
+            </div>
+            </div>)
+            
+      })}</div>
     </div>
   )
 }
