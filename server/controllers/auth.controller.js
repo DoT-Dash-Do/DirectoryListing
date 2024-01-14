@@ -66,3 +66,14 @@ export const googlesign = async(req,res,next) =>{
         next(error);
     }
 }
+
+export const signOut = async(req,res,next) => {
+    try{
+        res.clearCookie('acess_granted');
+        res.status(200).json('user logged out');
+    }
+    catch(error)
+    {
+        next(error);
+    }
+}
