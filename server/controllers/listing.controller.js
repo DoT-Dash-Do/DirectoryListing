@@ -12,7 +12,6 @@ export const createListing = async(req,res,next)=>{
 
 export const deleteListing = async(req,res,next)=>{
     const listing = await Listing.findById(req.params.id);
-    console.log(listing);
     if(!listing)
     {
         return next(errorHandler(404,'listing not fond'));
@@ -26,5 +25,23 @@ export const deleteListing = async(req,res,next)=>{
         res.status(201).json("listing has been deleted");
     } catch (error) {
         next(errorHandler(500,'error while deleting'));
+    }
+}
+
+export const updateListing = async(req,res,rext) => {
+    const listing = await Listing.findById(req.params.id);
+    if(!listing)
+    {
+        return next(errorHandler(404,'listing not fond'));
+    }
+    if(req.user.id !== listing.userRef)
+    {
+        return next(errorHandler(401,'not your listing'));
+    }
+    try {
+        const updatedListing = await Listing.findByIdAndUpdate(req.params.id,req.body,{new:true});
+        res.status(200).json(updatedListing);
+    } catch (error) {
+        next(errorHandler(401,'not your listing'));
     }
 }

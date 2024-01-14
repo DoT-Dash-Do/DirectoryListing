@@ -7,4 +7,5 @@ router.get('/test',test);
 router.patch('/update/:id',verifyToken,updateU);
 router.delete('/delete/:id',verifyToken,deleteU);
 router.get('/shlistings/:id',verifyToken,getUserListings)
+
 export default router;
