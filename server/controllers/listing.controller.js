@@ -28,7 +28,7 @@ export const deleteListing = async(req,res,next)=>{
     }
 }
 
-export const updateListing = async(req,res,rext) => {
+export const updateListing = async(req,res,next) => {
     const listing = await Listing.findById(req.params.id);
     if(!listing)
     {
@@ -43,5 +43,19 @@ export const updateListing = async(req,res,rext) => {
         res.status(200).json(updatedListing);
     } catch (error) {
         next(errorHandler(401,'not your listing'));
+    }
+}
+
+export const getListing = async(req,res,next)=>{
+    console.log("called again");
+    const listing = await Listing.findById(req.params.id);
+    if(!listing)
+    {
+        return next(errorHandler(404,'listing not fond'));
+    }
+    try {
+        res.status(200).json(listing);
+    } catch (error) {
+        next((error));
     }
 }

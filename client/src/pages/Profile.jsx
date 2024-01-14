@@ -134,7 +134,7 @@ export default function Profile() {
       }
   }
   const hndlEditList=(e)=>{
-      
+      navig(`/update-listing/${e}`);
   }
   return (
     <div className='max-w-lg mx-auto'>

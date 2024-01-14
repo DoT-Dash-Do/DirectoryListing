@@ -1,10 +1,11 @@
 import { uploadBytesResumable } from 'firebase/storage';
 import {getDownloadURL, getStorage,ref} from 'firebase/storage';
 import {app} from '../firebase.js';
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-export default function CreateListing() {
+import { useNavigate,useParams } from 'react-router-dom';
+export default function UpdateListing() {
+    const params = useParams();
     const navig = useNavigate();
     const currentUser = useSelector(state => state.user)
     const [files,setFiles] = useState([]);
@@ -19,6 +20,17 @@ export default function CreateListing() {
     pincode:0,
     mapUrl:''});
     const [imageUploadError,setImageUploadError] = useState(false);
+    useEffect(()=>{
+        fetchListing();
+    },[]);
+    const fetchListing = async()=>{
+        console.log(1);
+                const listingid = params.lstid;
+                const res = await fetch(`/api/listing/getinfo/${listingid}`);
+                const data = await res.json();
+                setformData(data);
+                return;
+            }
     const handleImageSumit = (e) => {
         if(files.length>0 && files.length + formData.imageUrls.length<6)
         {
@@ -110,9 +122,8 @@ export default function CreateListing() {
             })
         }
     };
-    console.log(formData);
   return (
-    <div className='p-3 max-w-4xl mx-auto'><h1 className='text-3xl font-semibold text-center my-7'>Create Listing</h1>
+    <div className='p-3 max-w-4xl mx-auto'><h1 className='text-3xl font-semibold text-center my-7'>Update Listing</h1>
     <form onSubmit={HandleSubmit} className='flex flex-col sm:flex-row'>
         <div className='flex flex-col gap-4 flex-1'>
             <input type="text" placeholder='Name' className='border p-3 rounded-lg' id='name' minLength='10' onChange={handleChange} value={formData.name} required/>
@@ -155,7 +166,7 @@ export default function CreateListing() {
                     )}
                 </div>
             </div>
-            <button className='p-3 bg-slate-700 text-white rounded-lg hover:opacity-95 disabled:opacity-80'>{load?'loading':'Create Listing'}</button>
+            <button className='p-3 bg-slate-700 text-white rounded-lg hover:opacity-95 disabled:opacity-80'>{load?'loading':'Update Lisitng'}</button>
         </div>
     </form></div>
     
