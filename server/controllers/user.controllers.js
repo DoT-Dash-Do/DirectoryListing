@@ -1,6 +1,7 @@
 import { errorHandler } from "../utils/error.js";
 import bcrypt from 'bcryptjs';
 import User from '../models/user.model.js'
+import Listing from "../models/listing.model.js";
 export const test = (req,res) =>{
     res.json({
         message:"Hello World!"
@@ -37,3 +38,21 @@ export const deleteU = async(req,res,next)=>{
         next(error);
     }
 };
+
+export const getUserListings = async(req,res,next)=>{
+    // if(req.user.id!==req.params.id) 
+    // {
+    // return next(errorHandler(401,"unauthorized"));
+    // }
+    // else
+    // {
+        try {
+            console.log(req.params.id);
+            const listings = await Listing.find({userRef:req.params.id});
+            console.log(req.params.id);
+            res.status(200).json(listings);
+        } catch (error) {
+            next(error);
+        }
+    // }
+}
