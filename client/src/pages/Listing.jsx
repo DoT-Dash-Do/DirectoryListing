@@ -37,7 +37,8 @@ export default function Listing() {
     // Update the html state immediately when the listing state changes
     setHtml(listing.mapUrl);
   }, [listing]);
-  const postListing = async()=>{
+  const postListing = async(e)=>{
+    e.preventDefault();
     try {
       const res = await fetch(`/api/reviews/create/${params.lstid}`,{
         method:"POST",
@@ -74,7 +75,7 @@ export default function Listing() {
     });
   }
   return (
-    <div className="bg-slate-400">
+    <div className="bg-slate-200 min-h-[700px]">
       {error ? (
         <p>Error loading listing</p>
       ) : (
@@ -94,48 +95,55 @@ export default function Listing() {
               ))}
           </Swiper>
 
-          <div className="mt-7 flex  flex-col gap-4 items-center">
-            <div className="flex flex-wrap justify-between items-center">
-              <h1 className="text-bold text-blue-900 italic text-3xl">
+          <div className="mt-7 flex  flex-col gap-4 items-center ">
+            <div className="flex flex-wrap justify-between gap-4 items-center">
+              <h1 className="font-bold text-blue-900 font-serif text-5xl">
                 {listing.name}
               </h1>
-              <span className="bg-green-600 p-2 rounded-lg">
+              <span className="bg-green-600 text-white p-2 rounded-lg select-none">
                 {listing.ListingType}
               </span>
-              {listing.AuthorizedBiz && <p className='bg-orange-500 p-2 rounded-lg'>Authorized Buissness</p>}
+              {listing.AuthorizedBiz && <p className='bg-slate-800 text-white p-2 rounded-lg select-none'>Authorized Buissness</p>}
             </div>
-            <p className="max-w-[800px] self-center">{listing.description}</p>
-            <p>{listing.address}</p>
-            <div dangerouslySetInnerHTML={{ __html: html }}></div>
+            <p className="block max-w-[1000px] text-center">{listing.description}</p>
             
+              <div className="flex flex-col lg:flex-row mt-16 w-full justify-evenly mb-8">
                 <div>
                 {
                   currentUser.currentUser &&
-                  <form>
-                  <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
-                  <textarea id="review" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..." onChange={hndlCmnt}></textarea>
-                  <button className="p-3 bg-green-700 text-white" onClick={postListing} type="button">Comment</button>
+                  <form onSubmit={postListing}>
+                  <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900">Your message</label>
+                  <textarea id="review" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 " placeholder="Leave a comment..." onChange={hndlCmnt}></textarea>
+                  <button className="p-3 bg-green-700 text-white">Comment</button>
                   </form>
                 }
                 {
                   revs.map((revi)=>{
-                    return (<div class="min-w-[400px] border rounded-md p-3 ml-3 my-3">
-                    <div class="flex gap-3 items-center">
-                        <h3 class="font-bold">
+                    return (<div class="min-w-[401px] border-2 rounded-md p-3 my-3 mx-8 lg:mx-0 border-slate-700">
+                    <div className="flex gap-3 items-center">
+                        <h3 className="font-bold">
                             {revi.userName}
                         </h3>
                     </div>
 
 
-                    <p class="text-gray-600 mt-2">
+                    <p className="text-gray-600 mt-2">
                         {revi.review}
                     </p>
 
                 </div>)
                   })
                 }
+                </div>
+                <div className="flex flex-col items-center">
+                  <p>{listing.address}</p>
+                  <div dangerouslySetInnerHTML={{ __html: html }}></div>
+                </div>
+                  
+                </div>
+          
               
-            </div>
+                
           </div>
         </div>
       )}

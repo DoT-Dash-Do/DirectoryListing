@@ -11,9 +11,12 @@ import CreateListing from './pages/CreateListing';
 import UpdateListing from './pages/UpdateListing';
 import Listing from './pages/Listing';
 import Search from './pages/Search';
+import Category from './pages/Category';
+import Footer from './Components/Footer';
 export default function App() {
   return (
     <BrowserRouter>
+    <div className='min-h-screen'>
     <Header/>
     <Routes>
       <Route path="/" element={<Home/>}/>
@@ -22,12 +25,16 @@ export default function App() {
       <Route path="/about" element={<About/>}/>
       <Route path="/listing/:lstid" element={<Listing/>}/>
       <Route path="/search" element={<Search/>}/>
+      <Route path="/category/:type" element={<Category/>}/>
       <Route element={<Privr/>}>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/create-listing" element={<CreateListing/>}/>
         <Route path="/update-listing/:lstid" element={<UpdateListing/>}/>
       </Route>
     </Routes>
+    <Footer/>
+    </div>
+   
     </BrowserRouter>
   )
 }

@@ -44,7 +44,7 @@ export default function SignIn() {
   }
   
   return (
-    <div className='items-center max-w-xs mx-auto sm:max-w-sm'>
+    <div className='items-center max-w-xs mx-auto sm:max-w-sm min-h-[700px]'>
       <h1 className='text-4xl text-center font-semibold my-7 text-orange-400'>Sign in</h1>
       <form onSubmit={handleSubmit} action="" className='flex flex-col gap-3'>
         <input type="email" placeholder='email' className='border p-3 rounded-lg' id='email' onChange={handleChange}/>

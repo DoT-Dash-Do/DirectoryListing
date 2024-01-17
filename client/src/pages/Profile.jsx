@@ -137,7 +137,7 @@ export default function Profile() {
       navig(`/update-listing/${e}`);
   }
   return (
-    <div className='max-w-lg mx-auto'>
+    <div className='max-w-lg mx-auto min-h-[700px]'>
       
       <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
       

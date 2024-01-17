@@ -123,7 +123,7 @@ export default function UpdateListing() {
         }
     };
   return (
-    <div className='p-3 max-w-4xl mx-auto'><h1 className='text-3xl font-semibold text-center my-7'>Update Listing</h1>
+    <div className='p-3 max-w-4xl mx-auto'><h1 className='text-3xl font-semibold text-center my-7 min-h-[700px]'>Update Listing</h1>
     <form onSubmit={HandleSubmit} className='flex flex-col sm:flex-row'>
         <div className='flex flex-col gap-4 flex-1'>
             <input type="text" placeholder='Name' className='border p-3 rounded-lg' id='name' minLength='10' onChange={handleChange} value={formData.name} required/>
