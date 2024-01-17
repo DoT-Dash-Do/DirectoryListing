@@ -154,18 +154,18 @@ export default function Profile() {
         <span onClick={handleDelete}className='text-red-700 cursor-pointer'>Delete account</span>
         <span onClick={signOut} className='text-red-700 cursor-pointer'>Sign out</span></div>
       <div className='text-red-500 self-center'>{error?error:''}</div>
-      <button className='self-center bg-orange-300 p-3 rounded-lg text-center hover:opacity-80' onClick={handleShowLs}>show listings</button>
+      <button className='self-center w-full mt-5 bg-orange-300 p-3 rounded-lg text-center hover:opacity-80' onClick={handleShowLs}>show listings</button>
       <p className='text-red-500 self-center'>{shLiserr?shLiserr:''}</p>
       <div className='mt-4 flex flex-col gap-4'>{
       userListings && userListings.length>0 && 
       userListings.map((lst)=>{
           return (<div  className='border-red-400 text-center p-3 flex flex-wrap items-center border rounded-lg gap-4 justify-between'
-            key={lst._id}><Link to={`listing/${lst._id}`}>
+            key={lst._id}><Link to={`/listing/${lst._id}`}>
             <img className=' h-16 w-18 object-contain' 
             src={lst.imageUrls[0]} 
             alt="listing cover" />
             </Link>
-            <Link className='text-blue-400 font-bold truncate' to={`listing/${lst._id}`}>{lst.name}</Link>
+            <Link className='text-blue-400 font-bold truncate' to={`/listing/${lst._id}`}>{lst.name}</Link>
             <div>
               <p onClick ={()=>hndlDelList(lst._id)} className='text-red-700 cursor-pointer'>Delete</p>
               <p onClick={()=>hndlEditList(lst._id)} className='text-green-700 cursor-pointer'>Edit</p>

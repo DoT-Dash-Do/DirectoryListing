@@ -73,8 +73,8 @@ export default function UpdateListing() {
         try {
             setLoad(true);
             setError(false);
-            const res = await fetch('/api/listing/create',{
-                method:'POST',
+            const res = await fetch(`/api/listing/updateListing/${params.lstid}`,{
+                method:'PATCH',
                 headers:{
                     'Content-Type':'application/json'
                 },
@@ -134,7 +134,7 @@ export default function UpdateListing() {
                 <label htmlFor="listingType" className="block mb-2 text-sm font-medium">Select The Type</label>
                 <select id="ListingType" className="border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={handleChange} value={formData.Listingtype}>
                 <option selected>{formData.ListingType}</option>
-                <option value="Food&Restro">Restaurant And Hotels</option>
+                <option value="FoodRestro">Restaurant And Hotels</option>
                 <option value="Commercial Store">Commercial Store</option>
                 <option value="Delivery Service">Delivery Service</option>
                 <option value="Education">Education</option>
