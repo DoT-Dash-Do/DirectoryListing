@@ -13,6 +13,7 @@ import Listing from './pages/Listing';
 import Search from './pages/Search';
 import Category from './pages/Category';
 import Footer from './Components/Footer';
+import ContactUs from './pages/ContactUs';
 export default function App() {
   return (
     <BrowserRouter>
@@ -26,6 +27,7 @@ export default function App() {
       <Route path="/listing/:lstid" element={<Listing/>}/>
       <Route path="/search" element={<Search/>}/>
       <Route path="/category/:type" element={<Category/>}/>
+      <Route path="/contactus" element={<ContactUs/>}/>
       <Route element={<Privr/>}>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/create-listing" element={<CreateListing/>}/>

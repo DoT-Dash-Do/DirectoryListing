@@ -2,6 +2,7 @@ import { errorHandler } from "../utils/error.js";
 import bcrypt from 'bcryptjs';
 import User from '../models/user.model.js'
 import Listing from "../models/listing.model.js";
+import contact from "../models/contact.model.js";
 export const test = (req,res) =>{
     res.json({
         message:"Hello World!"
@@ -50,3 +51,12 @@ export const getUserListings = async(req,res,next)=>{
         }
 }
 
+export const contactUs = async(req,res,next)=>{
+    try {
+        const {name,email,message} = req.body;
+        const crt = await contact.create({name,email,message});
+        res.status(200).json("done");
+    } catch (error) {
+        next(errorHandler(500,"internal server"));
+    }
+}
